@@ -14,7 +14,7 @@ export function HomePage() {
   const [data, setData] = useState<DataTypes[]>([]);
   
   useEffect(() => {
-    api.get('/refeicoes')
+    api.get('/refeicao')
       .then((data) => {
         setData(data.data);
       })
