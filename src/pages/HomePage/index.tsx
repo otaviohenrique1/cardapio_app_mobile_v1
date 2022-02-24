@@ -16,7 +16,12 @@ export function HomePage() {
   useEffect(() => {
     api.get('/refeicao')
       .then((data) => {
-        setData(data.data);
+        let lista = [...data.data];
+        let listaFiltrada = lista.filter((item) => {
+          return item.ativo !== false ;
+        });
+        let validaLista = (listaFiltrada) ? listaFiltrada : [];
+        setData(validaLista);
       })
       .catch((erro) => {
         Alert.alert('Erro', `${erro}`);
