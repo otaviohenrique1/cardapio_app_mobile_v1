@@ -92,14 +92,17 @@ const styles = StyleSheet.create({
     fontSize: 40,
     textAlign: 'center',
     marginTop: 10,
-    borderBottomColor: '#000000',
-    borderBottomWidth: 1,
-    paddingBottom: 10,
   },
   precoItemContainer: {
     marginVertical: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    borderTopColor: '#000000',
+    borderTopWidth: 1,
+    borderBottomColor: '#000000',
+    borderBottomWidth: 1,
+    paddingVertical: 30,
+    paddingHorizontal: 10,
   },
   precoItemTitulo: {
     fontWeight: 'bold',
@@ -109,9 +112,7 @@ const styles = StyleSheet.create({
   },
   ingredientesContainer: {
     flexDirection: 'column',
-    borderTopColor: '#000000',
-    borderTopWidth: 1,
-    paddingTop: 5,
+    paddingHorizontal: 10,
   },
   ingredientesTitulo: {
     fontSize: 30,
