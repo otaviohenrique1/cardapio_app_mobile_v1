@@ -1,11 +1,12 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Container } from '../../components/Container';
-import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes';
 import { AntDesign } from '@expo/vector-icons';
 import api from '../../utils/api';
 import { FormataValorMonetarioTexto } from '../../utils/utils';
+import { Entypo } from '@expo/vector-icons';
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, 'RefeicaoPage'>;
 
@@ -55,17 +56,20 @@ export function RefeicaoPage({ route, navigation }: NavigationProps) {
   return (
     <Container>
       <View style={styles.refeicaoPagina}>
-        <Text style={styles.nomeItem}>{data.nome}</Text>
+        <Text style={styles.nomeItemTexto}>{data.nome}</Text>
         <View style={styles.precoItemContainer}>
-          <Text style={[styles.precoItem, styles.precoItemTitulo]}>Preço (R$):</Text>
-          <Text style={styles.precoItem}>{FormataValorMonetarioTexto(data.preco)}</Text>
+          <Text style={[styles.precoItemValor, styles.precoItemTitulo]}>Preço (R$):</Text>
+          <Text style={styles.precoItemValor}>{FormataValorMonetarioTexto(data.preco)}</Text>
         </View>
-        <View style={styles.ingredientesItemContainer}>
-          <Text style={styles.ingredientesItemTitulo}>Ingredientes</Text>
+        <View style={styles.ingredientesContainer}>
+          <Text style={styles.ingredientesTitulo}>Ingredientes</Text>
           <View style={styles.ingredientesItemLista}>
             {data.ingredientes.map((item, index) => {
               return (
-                <Text style={styles.ingredientesItem} key={index}>{`- ${item}`}</Text>
+                <View style={styles.ingredientesItem} key={index}>
+                  <Entypo name="triangle-right" size={30} color="black" />
+                  <Text style={styles.ingredientesItemTexto}>{`${item}`}</Text>
+                </View>
               );
             })}
           </View>
@@ -84,33 +88,46 @@ const styles = StyleSheet.create({
   refeicaoPagina: {
     flexDirection: 'column',
   },
-  nomeItem: {
+  nomeItemTexto: {
     fontSize: 40,
     textAlign: 'center',
+    marginTop: 10,
+    borderBottomColor: '#000000',
+    borderBottomWidth: 1,
+    paddingBottom: 10,
   },
   precoItemContainer: {
     marginVertical: 30,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   precoItemTitulo: {
     fontWeight: 'bold',
   },
-  precoItem: {
+  precoItemValor: {
     fontSize: 30,
   },
-  ingredientesItemContainer: {
+  ingredientesContainer: {
     flexDirection: 'column',
-    marginTop: 10,
+    borderTopColor: '#000000',
+    borderTopWidth: 1,
+    paddingTop: 5,
   },
-  ingredientesItemTitulo: {
+  ingredientesTitulo: {
     fontSize: 30,
     fontWeight: 'bold',
+    marginBottom: 10,
   },
   ingredientesItemLista: {
     flexDirection: 'column',
   },
   ingredientesItem: {
-    fontSize: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  ingredientesItemTexto: {
+    fontSize: 25,
   },
 });
