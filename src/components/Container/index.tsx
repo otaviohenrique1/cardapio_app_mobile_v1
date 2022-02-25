@@ -18,7 +18,7 @@ export function Container(props: ContainerProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#c4c3c329',
     flexDirection: 'column',
   },
   page: {
