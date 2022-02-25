@@ -1,22 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { Header } from './src/components/Header';
-import { HomePage } from './src/pages/HomePage';
+import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
+import 'react-native-gesture-handler';
+import { Routes } from './src/pages/routes';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Header />
-      <HomePage />
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Routes />
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    flexDirection: 'column',
-  },
-});
