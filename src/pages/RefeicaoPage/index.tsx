@@ -6,6 +6,7 @@ import { RootStackParamList } from '../routes';
 import { AntDesign } from '@expo/vector-icons';
 import api from '../../utils/api';
 import { FormataValorMonetarioTexto } from '../../utils/utils';
+// import { ConverteStringParaArrayObjetos2 } from '../../utils/utils';
 import { Entypo } from '@expo/vector-icons';
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, 'RefeicaoPage'>;
@@ -13,7 +14,7 @@ type NavigationProps = NativeStackScreenProps<RootStackParamList, 'RefeicaoPage'
 interface DataTypes {
   nome: string;
   preco: number;
-  ingredientes: string[]
+  ingredientes: { nome: string }[]
 }
 
 const valoresIniciais: DataTypes = {
@@ -31,7 +32,8 @@ export function RefeicaoPage({ route, navigation }: NavigationProps) {
       .then((item) => {
         let nome = item.data.nome;
         let preco = item.data.preco;
-        let ingredientes = String(item.data.ingredientes).split(';');
+        // let ingredientes = String(item.data.ingredientes).split(';');
+        let ingredientes = JSON.parse(String(item.data.ingredientes));
 
         setData({ nome, preco, ingredientes });
       })
@@ -68,7 +70,7 @@ export function RefeicaoPage({ route, navigation }: NavigationProps) {
               return (
                 <View style={styles.ingredientesItem} key={index}>
                   <Entypo name="triangle-right" size={30} color="black" />
-                  <Text style={styles.ingredientesItemTexto}>{`${item}`}</Text>
+                  <Text style={styles.ingredientesItemTexto}>{`${item.nome}`}</Text>
                 </View>
               );
             })}
