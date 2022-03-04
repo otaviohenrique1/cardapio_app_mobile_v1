@@ -6,33 +6,20 @@ import { RootStackParamList } from '../routes';
 import { AntDesign } from '@expo/vector-icons';
 import api from '../../utils/api';
 import { FormataValorMonetarioTexto } from '../../utils/utils';
-// import { ConverteStringParaArrayObjetos2 } from '../../utils/utils';
 import { Entypo } from '@expo/vector-icons';
+import { valoresIniciaisRefeicao } from '../../utils/constantes';
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, 'RefeicaoPage'>;
 
-interface DataTypes {
-  nome: string;
-  preco: number;
-  ingredientes: { nome: string }[]
-}
-
-const valoresIniciais: DataTypes = {
-  nome: '',
-  preco: 0,
-  ingredientes: []
-};
-
 export function RefeicaoPage({ route, navigation }: NavigationProps) {
-  const [data, setData] = useState<DataTypes>(valoresIniciais);
+  const [data, setData] = useState<RefeicaoTypes>(valoresIniciaisRefeicao);
   const { id } = route.params;
-  
+
   useEffect(() => {
     api.get(`refeicao/${id}`)
       .then((item) => {
         let nome = item.data.nome;
         let preco = item.data.preco;
-        // let ingredientes = String(item.data.ingredientes).split(';');
         let ingredientes = JSON.parse(String(item.data.ingredientes));
 
         setData({ nome, preco, ingredientes });
@@ -68,16 +55,26 @@ export function RefeicaoPage({ route, navigation }: NavigationProps) {
           <View style={styles.ingredientesItemLista}>
             {data.ingredientes.map((item, index) => {
               return (
-                <View style={styles.ingredientesItem} key={index}>
-                  <Entypo name="triangle-right" size={30} color="black" />
-                  <Text style={styles.ingredientesItemTexto}>{`${item.nome}`}</Text>
-                </View>
+                <IngredientesItem key={index} nome={item.nome} />
               );
             })}
           </View>
         </View>
       </View>
     </Container>
+  );
+}
+
+interface IngredientesItemProps {
+  nome: string;
+}
+
+function IngredientesItem(props: IngredientesItemProps) {
+  return (
+    <View style={styles.ingredientesItem}>
+      <Entypo name="triangle-right" size={30} color="black" />
+      <Text style={styles.ingredientesItemTexto}>{`${props.nome}`}</Text>
+    </View>
   );
 }
 

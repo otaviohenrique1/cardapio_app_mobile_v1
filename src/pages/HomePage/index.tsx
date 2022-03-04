@@ -6,26 +6,18 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes';
 import { FormataValorMonetarioTexto } from '../../utils/utils';
 
-interface DataTypes {
-  id: string;
-  nome: string;
-  preco: number;
-}
-
 type NavigationProps = {
   navigation: NativeStackNavigationProp<RootStackParamList>;
 }
 
 export function HomePage({ navigation }: NavigationProps) {
-  const [data, setData] = useState<DataTypes[]>([]);
+  const [data, setData] = useState<ListaRefeicaoTypes[]>([]);
 
   useEffect(() => {
     api.get('/refeicao')
       .then((data) => {
         let lista = [...data.data];
-        let listaFiltrada = lista.filter((item) => {
-          return item.ativo !== false;
-        });
+        let listaFiltrada = lista.filter((item) => item.ativo !== false);
         let validaLista = (listaFiltrada) ? listaFiltrada : [];
         setData(validaLista);
       })

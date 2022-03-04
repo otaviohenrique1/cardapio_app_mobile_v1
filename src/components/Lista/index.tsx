@@ -1,15 +1,8 @@
 import { FlatList } from "react-native";
 import { ListaItem } from "../ListaItem";
 
-interface DataTypes {
-  id: string;
-  nome: string;
-  preco: number;
-  ativo: boolean;
-}
-
 interface ListaProps {
-  data: DataTypes[];
+  data: ListaRefeicaoTypes[];
 }
 
 export function Lista(props: ListaProps) {
@@ -22,7 +15,6 @@ export function Lista(props: ListaProps) {
             id={item.item.id}
             nome={item.item.nome}
             preco={item.item.preco}
-            ativo={item.item.ativo}
           />
         );
       }}

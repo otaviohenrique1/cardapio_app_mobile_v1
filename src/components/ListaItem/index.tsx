@@ -1,16 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import { FormataValorMonetarioTexto } from "../../utils/utils";
 
-interface ListaItemProps {
-  id: string;
-  nome: string;
-  ativo: boolean;
-  preco: number;
-}
+interface ListaItemProps extends ListaRefeicaoTypes {}
 
 export function ListaItem(props: ListaItemProps) {
-
-
   return (
     <View style={styles.itemLista}>
       <View style={styles.itemListaNome}>
@@ -21,7 +14,6 @@ export function ListaItem(props: ListaItemProps) {
           <Text style={[styles.itemListaPrecoLabel, styles.itemListaTexto]}>Preço (R$):</Text>
           <Text style={styles.itemListaTexto}>{FormataValorMonetarioTexto(props.preco)}</Text>
         </View>
-        <Text style={styles.itemListaTexto}>{(props.ativo) ? "Ativo" : "Inativo"}</Text>
       </View>
     </View>
   );
