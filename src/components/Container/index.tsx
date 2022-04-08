@@ -15,6 +15,22 @@ export function Container(props: ContainerProps) {
   );
 }
 
+interface BotaoContainerProps extends ContainerProps {}
+
+export function BotaoContainer(props: BotaoContainerProps) {
+  return (
+    <View style={styles.botao_container}>{props.children}</View>
+  );
+}
+
+interface CampoContainerProps extends ContainerProps {}
+
+export function CampoContainer(props: CampoContainerProps) {
+  return (
+    <View style={styles.campo_container}>{props.children}</View>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -24,5 +40,11 @@ const styles = StyleSheet.create({
   page: {
     paddingHorizontal: 10,
     paddingTop: 20,
+  },
+  botao_container: {
+    flexDirection: 'column',
+  },
+  campo_container: {
+    marginBottom: 25,
   },
 });
