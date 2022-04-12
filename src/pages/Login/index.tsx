@@ -1,15 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableHighlight } from 'react-native';
-import { BotaoContainer, CampoContainer, Container } from '../../components/Container';
-// import api from '../../utils/api';
+import { Alert, StyleSheet } from 'react-native';
+import { BotaoContainer, Container } from '../../components/Container';
+import api from '../../utils/api';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes';
 import * as Yup from "yup";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { MensagemErro } from '../../components/MensagemErro';
 import { Subtitulo, Titulo, TituloContainer } from '../../components/Titulo';
 import { Botao } from '../../components/Botao';
+import { CampoInput } from '../../components/Campos/CampoInput';
+import { sha512 } from '../../utils/utils';
 
 type NavigationProps = {
   navigation: NativeStackNavigationProp<RootStackParamList>;
@@ -43,9 +45,25 @@ export function Login({ navigation }: NavigationProps) {
     resolver: yupResolver(validacaoSchema)
   });
 
-  function onSubmit(data: FormTypes) {
-    console.log(data)
-    reset();
+  function onSubmit(values: FormTypes) {
+    let email = values.email;
+    let senha = sha512(values.senha);
+    api.post('cliente/login',
+      { email, senha },
+      { auth: { username: email, password: senha } }
+    ).then((data) => {
+      // const id = data.data.data_user.id;
+      // const nome = data.data.data_user.nome;
+      navigation.navigate('HomePage');
+    }).catch((error) => {
+      Alert.alert("Login inválido");
+      alert("Login inválido");
+      console.error(error);
+    });
+    // console.log(`
+    //   email: ${email}
+    //   senha: ${senha}
+    // `);
   };
 
   return (
@@ -54,44 +72,27 @@ export function Login({ navigation }: NavigationProps) {
         <Titulo texto="Cardapio" />
         <Subtitulo texto="Digital" />
       </TituloContainer>
-      <CampoContainer>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.campo}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholder="Email"
-            />
-          )}
-          name="email"
-        />
-        {errors.email && <MensagemErro menssagem={errors.email.message}/>}
-      </CampoContainer>
-      <CampoContainer>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={styles.campo}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholder="Senha"
-            />
-          )}
-          name="senha"
-        />
-        {errors.senha && <MensagemErro menssagem={errors.senha.message}/>}
-      </CampoContainer>
+      <CampoInput
+        control={control}
+        name="email"
+        erro={errors.email && <MensagemErro menssagem={errors.email.message} />}
+        placeholder="Email"
+        keyboardType="email-address"
+      />
+      <CampoInput
+        control={control}
+        name="senha"
+        erro={errors.senha && <MensagemErro menssagem={errors.senha.message} />}
+        placeholder="Senha"
+        keyboardType="default"
+        secureTextEntry
+      />
       <BotaoContainer>
         <Botao
           on_press={handleSubmit((onSubmit))}
           botao_texto_cor='white'
           botao_cor='blue'
-          botao_texto='Salvar'
+          botao_texto='Entrar'
         />
         <Botao
           on_press={() => reset()}
