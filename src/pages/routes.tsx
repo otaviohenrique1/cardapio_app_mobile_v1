@@ -18,13 +18,13 @@ export function Routes() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="NovoUsuario"
-        component={NovoUsuario}
+        name="Login"
+        component={Login}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Login"
-        component={Login}
+        name="NovoUsuario"
+        component={NovoUsuario}
         options={{ headerShown: false }}
       />
       <Stack.Screen
