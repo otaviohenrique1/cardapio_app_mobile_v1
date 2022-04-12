@@ -14,7 +14,7 @@ export function HomePage({ navigation }: NavigationProps) {
   const [data, setData] = useState<ListaRefeicaoTypes[]>([]);
 
   useEffect(() => {
-    api.get('/refeicao')
+    api.get('/refeicao/cardapio')
       .then((data) => {
         let lista = [...data.data];
         let listaFiltrada = lista.filter((item) => item.ativo !== false);
