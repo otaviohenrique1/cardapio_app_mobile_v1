@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Alert, FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Container } from '../../components/Container';
-import api from '../../utils/api';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes';
+import { Container } from '../../components/Container';
+import api, { id_empresa_cliente } from '../../utils/api';
 import { FormataValorMonetarioTexto } from '../../utils/utils';
 
 type NavigationProps = {
@@ -14,7 +14,7 @@ export function HomePage({ navigation }: NavigationProps) {
   const [data, setData] = useState<ListaRefeicaoTypes[]>([]);
 
   useEffect(() => {
-    api.get('/refeicao/cardapio')
+    api.get(`refeicao/cardapio/${id_empresa_cliente}`)
       .then((data) => {
         let lista = [...data.data];
         let listaFiltrada = lista.filter((item) => item.ativo !== false);
