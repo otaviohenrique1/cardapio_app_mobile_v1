@@ -1,5 +1,11 @@
 import axios from "axios";
 
+/**
+ * Arrumar logica do ID da empresa cliente.
+ * ID pego no banco de dados
+ */
+export const id_empresa_cliente = '1';
+
 const api = axios.create({
   // baseURL: 'exp://57-b82.otaviohenls625.cardapio-app.exp.direct:80:3333'
   // exp://57-b82.otaviohenls625.cardapio-app.exp.direct:80
