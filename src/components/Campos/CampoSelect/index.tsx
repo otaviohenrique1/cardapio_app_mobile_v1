@@ -2,51 +2,62 @@ import { Picker } from "@react-native-picker/picker";
 import React from "react"
 import { Controller } from "react-hook-form"
 import { StyleSheet } from "react-native"
-import { CampoContainer } from "../../Container";
+import { CampoContainer } from "../../Container/CampoContainer";
+
+interface DataTypes {
+  valor: string;
+  texto: string;
+}
+
+type modeTypes = "dialog" | "dropdown";
 
 interface CampoSelectProps {
   control: any;
   name: any;
   erro: any;
   placeholder?: string;
-  mode?: "dialog" | "dropdown"
+  mode?: modeTypes
   label_campo_selecione: string;
-  data: {
-    valor: string;
-    texto: string;
-  }[];
+  data: DataTypes[];
 }
 
 export function CampoSelect(props: CampoSelectProps) {
+  const { control, placeholder, label_campo_selecione,
+    data, name, erro } = props;
+  const { campo_select, campo_select_item } = styles;
+
+
   return (
     <CampoContainer>
       <Controller
-        control={props.control}
+        control={control}
         render={({ field: { onChange, onBlur, value } }) => (
           <Picker
             selectedValue={value}
             onValueChange={(itemValue, itemIndex) => { onChange(itemValue) }}
             onBlur={onBlur}
-            placeholder={props.placeholder}
-            style={styles.campo_select}
-            itemStyle={styles.campo_select_item}
+            placeholder={placeholder}
+            style={campo_select}
+            itemStyle={campo_select_item}
           >
-            <Picker.Item label={props.label_campo_selecione} value="" />
-            {props.data.map((item, index) => {
+            <Picker.Item label={label_campo_selecione} value="" />
+            {data.map((item, index) => {
+              const { texto, valor } = item;
+
               return (
                 <Picker.Item
-                  style={styles.campo_select_item}
-                  label={item.texto}
-                  value={item.valor}
+                  style={campo_select_item}
+                  label={texto}
+                  value={valor}
                   key={index}
                 />
               );
             })}
           </Picker>
         )}
-        name={props.name}
+        name={name}
       />
-      {props.erro}
+      {erro}
     </CampoContainer>
   );
 }
@@ -68,43 +79,3 @@ const styles = StyleSheet.create({
     color: 'gray',
   }
 });
-
-/*
-  export function CampoSelect2() {
-    const [selectedLanguage, setSelectedLanguage] = useState();
-
-    return (
-      <Picker
-        selectedValue={selectedLanguage}
-        onValueChange={(itemValue, itemIndex) =>
-          setSelectedLanguage(itemValue)
-        }>
-        <Picker.Item label="Java" value="java" />
-        <Picker.Item label="JavaScript" value="js" />
-      </Picker>
-    );
-  }
-
-  export function CampoSelect3() {
-    const [selectedLanguage, setSelectedLanguage] = useState();
-    const pickerRef = useRef();
-
-    function open() {
-      pickerRef.current.focus();
-    }
-
-    function close() {
-      pickerRef.current.blur();
-    }
-
-    return <Picker
-      ref={pickerRef}
-      selectedValue={selectedLanguage}
-      onValueChange={(itemValue, itemIndex) =>
-        setSelectedLanguage(itemValue)
-      }>
-      <Picker.Item label="Java" value="java" />
-      <Picker.Item label="JavaScript" value="js" />
-    </Picker>
-  }
-*/
