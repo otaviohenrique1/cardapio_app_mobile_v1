@@ -7,31 +7,18 @@ interface ContainerProps {
 }
 
 export function Container(props: ContainerProps) {
+  const { children } = props;
+  const { container, page } = styles;
+
   return (
-    <View style={styles.container}>
-      <View style={styles.page}>{props.children}</View>
+    <View style={container}>
+      <View style={page}>{children}</View>
       <StatusBar style="auto" />
     </View>
   );
 }
 
-interface BotaoContainerProps extends ContainerProps {}
-
-export function BotaoContainer(props: BotaoContainerProps) {
-  return (
-    <View style={styles.botao_container}>{props.children}</View>
-  );
-}
-
-interface CampoContainerProps extends ContainerProps {}
-
-export function CampoContainer(props: CampoContainerProps) {
-  return (
-    <View style={styles.campo_container}>{props.children}</View>
-  );
-}
-
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#c4c3c329',
@@ -40,11 +27,5 @@ const styles = StyleSheet.create({
   page: {
     paddingHorizontal: 10,
     paddingTop: 20,
-  },
-  botao_container: {
-    flexDirection: 'column',
-  },
-  campo_container: {
-    marginBottom: 25,
   },
 });
