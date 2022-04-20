@@ -6,8 +6,9 @@ import { RootStackParamList } from '../routes';
 import { AntDesign } from '@expo/vector-icons';
 import api from '../../utils/api';
 import { FormataValorMonetarioTexto } from '../../utils/utils';
-import { Entypo } from '@expo/vector-icons';
 import { valoresIniciaisRefeicao } from '../../utils/constantes';
+import { IngredientesLista } from '../../components/Listas/Ingredientes/IngredientesLista';
+import { FormatadorDados } from '../../utils/FormatadorDados';
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, 'RefeicaoPage'>;
 
@@ -18,11 +19,10 @@ export function RefeicaoPage({ route, navigation }: NavigationProps) {
   useEffect(() => {
     api.get(`refeicao/${id}`)
       .then((item) => {
-        let nome = item.data.nome;
-        let preco = item.data.preco;
-        let ingredientes = JSON.parse(String(item.data.ingredientes));
+        const { nome, preco, ingredientes, descricao } = item.data;
+        let lista_ingredientes = JSON.parse(String(ingredientes));
 
-        setData({ nome, preco, ingredientes });
+        setData({ nome, preco, ingredientes: lista_ingredientes });
       })
       .catch((error) => {
         Alert.alert(`${error}`);
@@ -42,39 +42,23 @@ export function RefeicaoPage({ route, navigation }: NavigationProps) {
     });
   }, [navigation]);
 
+  const { nome, preco, ingredientes } = data;
+  const { refeicaoPagina, nomeItemTexto, precoItemContainer, precoItemValor, precoItemTitulo } = styles;
+  const preco_formatado = FormatadorDados.FormataValorMonetarioTexto(preco);
+
   return (
     <Container>
-      <View style={styles.refeicaoPagina}>
-        <Text style={styles.nomeItemTexto}>{data.nome}</Text>
-        <View style={styles.precoItemContainer}>
-          <Text style={[styles.precoItemValor, styles.precoItemTitulo]}>Preço (R$):</Text>
-          <Text style={styles.precoItemValor}>{FormataValorMonetarioTexto(data.preco)}</Text>
+      <View style={refeicaoPagina}>
+        <Text style={nomeItemTexto}>{nome}</Text>
+        <View style={precoItemContainer}>
+          <Text style={[precoItemValor, precoItemTitulo]}>Preço (R$):</Text>
+          <Text style={precoItemValor}>{preco_formatado}</Text>
         </View>
-        <View style={styles.ingredientesContainer}>
-          <Text style={styles.ingredientesTitulo}>Ingredientes</Text>
-          <View style={styles.ingredientesItemLista}>
-            {data.ingredientes.map((item, index) => {
-              return (
-                <IngredientesItem key={index} nome={item.nome} />
-              );
-            })}
-          </View>
-        </View>
+        <IngredientesLista
+          data={ingredientes}
+        />
       </View>
     </Container>
-  );
-}
-
-interface IngredientesItemProps {
-  nome: string;
-}
-
-function IngredientesItem(props: IngredientesItemProps) {
-  return (
-    <View style={styles.ingredientesItem}>
-      <Entypo name="triangle-right" size={30} color="black" />
-      <Text style={styles.ingredientesItemTexto}>{`${props.nome}`}</Text>
-    </View>
   );
 }
 
@@ -108,26 +92,5 @@ const styles = StyleSheet.create({
   },
   precoItemValor: {
     fontSize: 30,
-  },
-  ingredientesContainer: {
-    flexDirection: 'column',
-    paddingHorizontal: 10,
-  },
-  ingredientesTitulo: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  ingredientesItemLista: {
-    flexDirection: 'column',
-  },
-  ingredientesItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  ingredientesItemTexto: {
-    fontSize: 25,
   },
 });
