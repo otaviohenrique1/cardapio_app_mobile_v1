@@ -9,12 +9,17 @@ interface BotaoProps {
 }
 
 export function Botao(props: BotaoProps) {
+  const { on_press, botao_cor, botao_texto_cor, botao_texto } = props;
+  const { botao, botao_texto_font } = styles;
+
   return (
     <TouchableHighlight
-      onPress={props.on_press}
-      style={[styles.botao, { backgroundColor: props.botao_cor }]}
+      onPress={on_press}
+      style={[botao, { backgroundColor: botao_cor }]}
     >
-      <Text style={[styles.botao_texto, { color: props.botao_texto_cor }]}>{props.botao_texto}</Text>
+      <Text
+        style={[botao_texto_font, { color: botao_texto_cor }]}
+      >{botao_texto}</Text>
     </TouchableHighlight>
   );
 }
@@ -28,7 +33,7 @@ const styles = StyleSheet.create({
     margin: 1,
     padding: 10,
   },
-  botao_texto: {
+  botao_texto_font: {
     fontSize: 25,
     fontWeight: 'bold',
   },
