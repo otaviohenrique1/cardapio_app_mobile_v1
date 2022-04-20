@@ -2,9 +2,11 @@ import { StyleSheet, Text, View } from "react-native";
 import Constants from "expo-constants";
 
 export function Header() {
+  const { containerHeader, textHeader} = styles;
+
   return (
-    <View style={styles.containerHeader}>
-      <Text style={styles.textHeader}>Cardapio</Text>
+    <View style={containerHeader}>
+      <Text style={textHeader}>Cardapio</Text>
     </View>
   );
 }
