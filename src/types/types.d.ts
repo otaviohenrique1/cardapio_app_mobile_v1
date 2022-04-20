@@ -1,3 +1,13 @@
+type DataHoraFormatos =
+  "HH:mm" |
+  "HH:mm:ss" |
+  "dd/MM/yyyy" |
+  "yyyy-MM-dd" |
+  'yyyy-MM-dd HH:mm' |
+  'dd/MM/yyyy HH:mm' |
+  'yyyy-MM-dd HH:mm:ss' |
+  'dd/MM/yyyy HH:mm:ss';
+
 /* Parte do Login */
 interface LoginTypes {
   email: string;
@@ -30,13 +40,28 @@ interface RefeicaoBaseTypes {
 }
 
 interface RefeicaoTypes extends RefeicaoBaseTypes {
-  ingredientes: Ingredientes[];
+  ingredientes: IngredientesTypes[];
 }
 
 interface ListaRefeicaoTypes extends RefeicaoBaseTypes {
   id: string;
 }
 
-interface Ingredientes {
+interface IngredientesTypes {
   nome: string;
+  quantidade: number;
+}
+
+interface ClienteTypes {
+  email: string;
+  senha: string;
+  nome: string;
+  rua: string;
+  numero: string;
+  bairro: string;
+  cidade: string;
+  estado: string;
+  cep: string;
+  telefone: string;
+  // estado2: string;
 }
