@@ -5,8 +5,11 @@ interface MensagemErroProps {
 }
 
 export function MensagemErro(props: MensagemErroProps) {
+  const { menssagem } = props;
+  const { mensagem_erro } = styles;
+
   return (
-    <Text style={styles.mensagem_erro}>{props.menssagem}</Text>
+    <Text style={mensagem_erro}>{menssagem}</Text>
   );
 }
 
