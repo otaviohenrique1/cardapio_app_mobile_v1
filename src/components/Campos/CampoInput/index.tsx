@@ -1,7 +1,7 @@
 import React from "react"
 import { Controller } from "react-hook-form"
 import { KeyboardTypeOptions, StyleSheet, TextInput } from "react-native"
-import { CampoContainer } from "../../Container";
+import { CampoContainer } from "../../Container/CampoContainer";
 
 interface CampoInputProps {
   control: any;
@@ -15,26 +15,30 @@ interface CampoInputProps {
 }
 
 export function CampoInput(props: CampoInputProps) {
+  const { control, placeholder, editable, keyboardType,
+    defaultValue, secureTextEntry, name, erro } = props;
+  const { campo } = styles;
+    
   return (
     <CampoContainer>
       <Controller
-        control={props.control}
+        control={control}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            style={styles.campo}
+            style={campo}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
-            placeholder={props.placeholder}
-            editable={props.editable}
-            keyboardType={props.keyboardType}
-            defaultValue={props.defaultValue}
-            secureTextEntry={props.secureTextEntry}
+            placeholder={placeholder}
+            editable={editable}
+            keyboardType={keyboardType}
+            defaultValue={defaultValue}
+            secureTextEntry={secureTextEntry}
           />
         )}
-        name={props.name}
+        name={name}
       />
-      {props.erro}
+      {erro}
     </CampoContainer>
   );
 }
