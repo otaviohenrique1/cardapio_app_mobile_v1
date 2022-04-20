@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes';
 import { Container } from '../../components/Container';
 import api, { id_empresa_cliente } from '../../utils/api';
-import { FormataValorMonetarioTexto } from '../../utils/utils';
+import { FormatadorDados } from '../../utils/FormatadorDados';
 
 type NavigationProps = {
   navigation: NativeStackNavigationProp<RootStackParamList>;
@@ -26,20 +26,25 @@ export function HomePage({ navigation }: NavigationProps) {
       });
   }, []);
 
+  const { itemLista, itemListaNome, itemListaTexto, itemListaPrecoContainer, itemListaPrecoLabel } = styles;
+
   return (
     <Container>
       <FlatList
         data={data}
         renderItem={(item) => {
+          const {id, nome, preco } = item.item;
+          const preco_formatado = FormatadorDados.FormataValorMonetarioTexto(preco);
+
           return (
-            <TouchableOpacity onPress={() => navigation.navigate('RefeicaoPage', { id: item.item.id })}>
-              <View style={styles.itemLista}>
-                <View style={styles.itemListaNome}>
-                  <Text style={styles.itemListaTexto}>{item.item.nome}</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('RefeicaoPage', { id })}>
+              <View style={itemLista}>
+                <View style={itemListaNome}>
+                  <Text style={itemListaTexto}>{nome}</Text>
                 </View>
-                <View style={styles.itemListaPrecoContainer}>
-                  <Text style={[styles.itemListaPrecoLabel, styles.itemListaTexto]}>Preço (R$):</Text>
-                  <Text style={styles.itemListaTexto}>{FormataValorMonetarioTexto(item.item.preco)}</Text>
+                <View style={itemListaPrecoContainer}>
+                  <Text style={[itemListaPrecoLabel, itemListaTexto]}>Preço (R$):</Text>
+                  <Text style={itemListaTexto}>{preco_formatado}</Text>
                 </View>
               </View>
             </TouchableOpacity>
