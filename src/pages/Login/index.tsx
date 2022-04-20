@@ -1,69 +1,53 @@
 import React from 'react';
 import { Alert, StyleSheet } from 'react-native';
-import { BotaoContainer, Container } from '../../components/Container';
-import api from '../../utils/api';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes';
-import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { MensagemErro } from '../../components/MensagemErro';
-import { Subtitulo, Titulo, TituloContainer } from '../../components/Titulo';
+import { Container } from '../../components/Container';
+import { BotaoContainer } from "../../components/Container/BotaoContainer";
+import { Titulo } from '../../components/Titulo';
+import { TituloContainer } from "../../components/Container/TituloContainer";
+import { Subtitulo } from "../../components/Subtitulo";
 import { Botao } from '../../components/Botao';
 import { CampoInput } from '../../components/Campos/CampoInput';
-import { sha512 } from '../../utils/utils';
+import api from '../../utils/api';
+import { schemaValidacaoFormularioLogin } from '../../utils/ValidacaoSchemas';
+import { valoresIniciaisLogin } from '../../utils/constantes';
+import { FormatadorCrypto } from '../../utils/FormatadorCrypto';
 
 type NavigationProps = {
   navigation: NativeStackNavigationProp<RootStackParamList>;
 }
 
-interface FormTypes {
-  email: string;
-  senha: string;
-}
-
-const validacaoSchema = Yup.object({
-  email: Yup
-    .string()
-    .email('Email invalido')
-    .required('Campo email vazio'),
-  senha: Yup
-    .string()
-    .required('Campo senha vazio')
-    .min(8, 'Minimo de 8 caracteres')
-    .max(32, 'Maximo de 32 caracteres'),
-});
-
-const valoresIniciais: FormTypes = {
-  email: '',
-  senha: ''
-};
-
 export function Login({ navigation }: NavigationProps) {
-  const { control, handleSubmit, formState: { errors }, reset } = useForm<FormTypes>({
-    defaultValues: valoresIniciais,
-    resolver: yupResolver(validacaoSchema)
+  const { control, handleSubmit, formState: { errors }, reset } = useForm<LoginTypes>({
+    defaultValues: valoresIniciaisLogin,
+    resolver: yupResolver(schemaValidacaoFormularioLogin)
   });
 
-  function onSubmit(values: FormTypes) {
-    let email = values.email;
-    let senha = sha512(values.senha);
-    api.post('cliente/login',
-      { email, senha },
-      { auth: { username: email, password: senha } }
-    ).then((data) => {
-      // const id = data.data.data_user.id;
-      // const nome = data.data.data_user.nome;
-      navigation.navigate('HomePage');
-    }).catch((error) => {
-      Alert.alert("Login inválido");
-      alert("Login inválido");
-      console.error(error);
-    });
-    // console.log(`
-    //   email: ${email}
-    //   senha: ${senha}
-    // `);
+  function onSubmit(values: LoginTypes) {
+    const { email, senha } = values;
+    let senha_formatada = FormatadorCrypto.mensagemSHA512(senha);
+    const data = { email, senha: senha_formatada };
+    const auth = {
+      auth: {
+        username: email,
+        password: senha_formatada
+      }
+    };
+
+    api.post('cliente/login', data, auth).
+      then((data) => {
+        const { id, nome } = data.data.data_user;
+        navigation.navigate('HomePage');
+      }).catch((error) => {
+        const login_invalido = "Login inválido";
+        Alert.alert(login_invalido);
+        alert(login_invalido);
+        console.error(error);
+      });
   };
 
   return (
@@ -111,33 +95,4 @@ export function Login({ navigation }: NavigationProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  campo: {
-    borderBottomColor: '#000000',
-    borderBottomWidth: 1,
-    borderStyle: 'solid',
-    fontSize: 25,
-  },
-  botao: {
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    marginVertical: 1,
-    padding: 10,
-  },
-  botao_texto: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    color: '#ffffff'
-  },
-  botao_entrar: {
-    backgroundColor: 'blue',
-  },
-  botao_limpar: {
-    backgroundColor: 'red',
-  },
-  botao_novo: {
-    backgroundColor: 'green',
-  },
-});
+const styles = StyleSheet.create({});
