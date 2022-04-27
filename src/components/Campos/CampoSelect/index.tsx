@@ -11,7 +11,7 @@ interface DataTypes {
 
 type modeTypes = "dialog" | "dropdown";
 
-interface CampoSelectProps {
+export interface CampoSelectProps {
   control: any;
   name: any;
   erro: any;
