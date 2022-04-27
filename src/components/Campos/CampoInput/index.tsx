@@ -1,10 +1,11 @@
 import React from "react"
-import { Controller } from "react-hook-form"
+import { Control, Controller } from "react-hook-form"
 import { KeyboardTypeOptions, StyleSheet, TextInput } from "react-native"
 import { CampoContainer } from "../../Container/CampoContainer";
 
-interface CampoInputProps {
-  control: any;
+export interface CampoInputProps {
+  // control: any;
+  control: Control<any, any>;
   name: any;
   erro: any;
   placeholder: string;
@@ -42,6 +43,26 @@ export function CampoInput(props: CampoInputProps) {
     </CampoContainer>
   );
 }
+
+/*
+<CampoContainer>
+  <Controller
+    control={control}
+    render={({ field: { onChange, onBlur, value } }) => (
+      <TextInput
+        style={styles.campo}
+        onBlur={onBlur}
+        onChangeText={onChange}
+        value={value}
+        placeholder="Telefone"
+        keyboardType='phone-pad'
+      />
+    )}
+    name="telefone"
+  />
+  {errors.telefone && <MensagemErro menssagem={errors.telefone.message} />}
+</CampoContainer>
+*/
 
 /* #Exemplo de utilização:
   <Controller
