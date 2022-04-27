@@ -41,6 +41,7 @@ interface RefeicaoBaseTypes {
 
 interface RefeicaoTypes extends RefeicaoBaseTypes {
   ingredientes: IngredientesTypes[];
+  descricao: string;
 }
 
 interface ListaRefeicaoTypes extends RefeicaoBaseTypes {
@@ -63,5 +64,9 @@ interface ClienteTypes {
   estado: string;
   cep: string;
   telefone: string;
-  // estado2: string;
+}
+
+interface ClienteDadosTypes extends ClienteTypes {
+  data_cadastro: string;
+  data_modificacao_cadastro: string;
 }
