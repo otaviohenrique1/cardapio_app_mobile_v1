@@ -4,7 +4,7 @@ import { Container } from '../../components/Container';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes';
 import { AntDesign } from '@expo/vector-icons';
-import api from '../../utils/api';
+import api, { ApiBuscaDadosUmaRefeicao } from '../../utils/api';
 import { FormataValorMonetarioTexto } from '../../utils/utils';
 import { valoresIniciaisRefeicao } from '../../utils/constantes';
 import { IngredientesLista } from '../../components/Listas/Ingredientes/IngredientesLista';
@@ -17,12 +17,13 @@ export function RefeicaoPage({ route, navigation }: NavigationProps) {
   const { id } = route.params;
 
   useEffect(() => {
-    api.get(`refeicao/${id}`)
+    // api.get(`refeicao/${id}`)
+    ApiBuscaDadosUmaRefeicao(id)
       .then((item) => {
         const { nome, preco, ingredientes, descricao } = item.data;
         let lista_ingredientes = JSON.parse(String(ingredientes));
 
-        setData({ nome, preco, ingredientes: lista_ingredientes });
+        setData({ nome, preco, ingredientes: lista_ingredientes, descricao });
       })
       .catch((error) => {
         Alert.alert(`${error}`);
@@ -42,8 +43,10 @@ export function RefeicaoPage({ route, navigation }: NavigationProps) {
     });
   }, [navigation]);
 
-  const { nome, preco, ingredientes } = data;
-  const { refeicaoPagina, nomeItemTexto, precoItemContainer, precoItemValor, precoItemTitulo } = styles;
+  const { nome, preco, ingredientes, descricao } = data;
+  const { refeicaoPagina, nomeItemTexto,
+    precoItemContainer, precoItemValor, precoItemTitulo,
+    descricaoItemContainer, descricaoItemValor } = styles;
   const preco_formatado = FormatadorDados.FormataValorMonetarioTexto(preco);
 
   return (
@@ -53,6 +56,9 @@ export function RefeicaoPage({ route, navigation }: NavigationProps) {
         <View style={precoItemContainer}>
           <Text style={[precoItemValor, precoItemTitulo]}>Preço (R$):</Text>
           <Text style={precoItemValor}>{preco_formatado}</Text>
+        </View>
+        <View style={descricaoItemContainer}>
+          <Text style={descricaoItemValor}>{descricao}</Text>
         </View>
         <IngredientesLista
           data={ingredientes}
@@ -91,6 +97,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   precoItemValor: {
+    fontSize: 30,
+  },
+  descricaoItemContainer: {
+    marginVertical: 30,
+    borderTopColor: '#000000',
+    borderTopWidth: 1,
+    borderBottomColor: '#000000',
+    borderBottomWidth: 1,
+    paddingVertical: 30,
+    paddingHorizontal: 10,
+  },
+  descricaoItemValor: {
     fontSize: 30,
   },
 });
