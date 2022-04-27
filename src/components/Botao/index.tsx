@@ -1,7 +1,7 @@
 import React from "react";
 import { ColorValue, GestureResponderEvent, StyleSheet, Text, TouchableHighlight } from "react-native";
 
-interface BotaoProps {
+export interface BotaoProps {
   on_press: ((event: GestureResponderEvent) => void);
   botao_cor: ColorValue;
   botao_texto_cor: ColorValue;
