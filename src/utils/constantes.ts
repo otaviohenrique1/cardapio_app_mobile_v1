@@ -18,9 +18,10 @@ export const FORMATO_DATA_COM_HORA_4 = 'dd/MM/yyyy HH:mm:ss';
 export const valoresIniciaisRefeicao: RefeicaoTypes = {
   nome: '',
   preco: 0,
+  descricao: "",
   ingredientes: [
     { nome: '', quantidade: 0 }
-  ]
+  ],
 };
 
 export const valoresIniciaisLogin: LoginTypes = {
