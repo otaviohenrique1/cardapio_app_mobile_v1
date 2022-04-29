@@ -26,6 +26,7 @@ export function IngredientesLista(props: IngredientesListaProps) {
 export const styles = StyleSheet.create({
   ingredientesContainer: {
     flexDirection: 'column',
+    paddingVertical: 30,
     paddingHorizontal: 10,
   },
   ingredientesTitulo: {
