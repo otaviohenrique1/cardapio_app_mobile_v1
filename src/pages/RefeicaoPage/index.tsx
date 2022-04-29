@@ -1,14 +1,14 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 import { Container } from '../../components/Container';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes';
 import { AntDesign } from '@expo/vector-icons';
-import api, { ApiBuscaDadosUmaRefeicao } from '../../utils/api';
-import { FormataValorMonetarioTexto } from '../../utils/utils';
+import { ApiBuscaDadosUmaRefeicao } from '../../utils/api';
 import { valoresIniciaisRefeicao } from '../../utils/constantes';
 import { IngredientesLista } from '../../components/Listas/Ingredientes/IngredientesLista';
 import { FormatadorDados } from '../../utils/FormatadorDados';
+import { BotaoVoltar } from '../../components/Botoes/BotaoVoltar';
 
 type NavigationProps = NativeStackScreenProps<RootStackParamList, 'RefeicaoPage'>;
 
@@ -21,73 +21,90 @@ export function RefeicaoPage({ route, navigation }: NavigationProps) {
     ApiBuscaDadosUmaRefeicao(id)
       .then((item) => {
         const { nome, preco, ingredientes, descricao } = item.data;
-        let lista_ingredientes = JSON.parse(String(ingredientes));
-
-        setData({ nome, preco, ingredientes: lista_ingredientes, descricao });
+        const data = { nome, preco, ingredientes, descricao };
+        setData(data);
       })
       .catch((error) => {
         Alert.alert(`${error}`);
+        console.error(error);
       });
   }, [id]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.botaoVoltarHeader}
-        >
-          <AntDesign name="arrowleft" size={40} color="white" />
-        </TouchableOpacity>
-      ),
+      headerLeft: () => <BotaoVoltar navigation={navigation} />,
     });
   }, [navigation]);
 
   const { nome, preco, ingredientes, descricao } = data;
   const { refeicaoPagina, nomeItemTexto,
     precoItemContainer, precoItemValor, precoItemTitulo,
-    descricaoItemContainer, descricaoItemValor } = styles;
+    descricaoItemContainer, descricaoItemTitulo, descricaoItemValor } = styles;
   const preco_formatado = FormatadorDados.FormataValorMonetarioTexto(preco);
+
+  const lista_dados: ItemFichaDadosProps[] = [
+    {
+      style_container: precoItemContainer, style_titulo: [precoItemValor, precoItemTitulo],
+      style_valor: precoItemValor, titulo: "Preço (R$):", valor: preco_formatado,
+    },
+    {
+      style_container: descricaoItemContainer, style_titulo: [descricaoItemValor, descricaoItemTitulo],
+      style_valor: descricaoItemValor, titulo: "Descrição:", valor: preco_formatado,
+    },
+  ];
 
   return (
     <Container>
       <View style={refeicaoPagina}>
         <Text style={nomeItemTexto}>{nome}</Text>
-        <View style={precoItemContainer}>
-          <Text style={[precoItemValor, precoItemTitulo]}>Preço (R$):</Text>
-          <Text style={precoItemValor}>{preco_formatado}</Text>
-        </View>
-        <View style={descricaoItemContainer}>
-          <Text style={descricaoItemValor}>{descricao}</Text>
-        </View>
-        <IngredientesLista
-          data={ingredientes}
-        />
+        {lista_dados.map((item, index) => {
+          const { style_container, style_titulo, style_valor, titulo, valor } = item;
+          return (
+            <ItemFichaDados
+              key={index} style_container={style_container} style_titulo={style_titulo}
+              style_valor={style_valor} titulo={titulo} valor={valor}
+            />
+          );
+        })}
+        <IngredientesLista data={ingredientes} />
       </View>
     </Container>
   );
 }
 
+interface ItemFichaDadosProps {
+  style_container: StyleProp<ViewStyle>;
+  style_titulo: StyleProp<TextStyle>;
+  style_valor: StyleProp<TextStyle>;
+  titulo: string;
+  valor: string;
+}
+
+function ItemFichaDados(props: ItemFichaDadosProps) {
+  const { style_container, style_titulo, style_valor, titulo, valor } = props;
+  return (
+    <View style={style_container}>
+      <Text style={style_titulo}>{titulo}</Text>
+      <Text style={style_valor}>{valor}</Text>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
-  botaoVoltarHeader: {
-    paddingStart: 15,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   refeicaoPagina: {
     flexDirection: 'column',
   },
   nomeItemTexto: {
     fontSize: 40,
     textAlign: 'center',
-    marginTop: 10,
+    paddingBottom: 30,
+    paddingHorizontal: 10,
+    borderBottomColor: '#000000',
+    borderBottomWidth: 1,
   },
   precoItemContainer: {
-    marginVertical: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderTopColor: '#000000',
-    borderTopWidth: 1,
     borderBottomColor: '#000000',
     borderBottomWidth: 1,
     paddingVertical: 30,
@@ -100,13 +117,15 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   descricaoItemContainer: {
-    marginVertical: 30,
-    borderTopColor: '#000000',
-    borderTopWidth: 1,
+    flexDirection: 'column',
     borderBottomColor: '#000000',
     borderBottomWidth: 1,
     paddingVertical: 30,
     paddingHorizontal: 10,
+  },
+  descricaoItemTitulo: {
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
   descricaoItemValor: {
     fontSize: 30,

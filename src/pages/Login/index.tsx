@@ -10,7 +10,7 @@ import { BotaoContainer } from "../../components/Container/BotaoContainer";
 import { Titulo } from '../../components/Titulo';
 import { TituloContainer } from "../../components/Container/TituloContainer";
 import { Subtitulo } from "../../components/Subtitulo";
-import { Botao, BotaoProps } from '../../components/Botao';
+import { Botao, BotaoProps } from '../../components/Botoes/Botao';
 import { CampoInput, CampoInputProps } from '../../components/Campos/CampoInput';
 import api, { ApiBuscaLoginCliente, ApiBuscaLoginClienteTypes } from '../../utils/api';
 import { schemaValidacaoFormularioLogin } from '../../utils/ValidacaoSchemas';
@@ -30,15 +30,31 @@ export function Login({ navigation }: NavigationProps) {
   function onSubmit(values: LoginTypes) {
     const { email, senha } = values;
     let senha_formatada = FormatadorCrypto.mensagemSHA512(senha);
+    console.log("email => ", email);
+    console.log("senha => ", senha);
+    console.log("senha_formatada => ", senha_formatada);
     const data = { email, senha: senha_formatada };
     const auth = {
       username: email,
       password: senha_formatada
     };
 
-    const data_login: ApiBuscaLoginClienteTypes = { data, auth };
+    // const data_login: ApiBuscaLoginClienteTypes = { data, auth };
     // api.post('cliente/login', data, { auth })
-    ApiBuscaLoginCliente(data_login)
+    console.log("data email => ", data.email);
+    console.log("data senha => ", data.senha);
+    console.log("auth username => ", auth.username);
+    console.log("auth password => ", auth.password);
+    ApiBuscaLoginCliente({
+      data: {
+        email: email,
+        senha: senha_formatada
+      },
+      auth: {
+        username: email,
+        password: senha_formatada
+      }
+    })
       .then((data) => {
         const { id, nome } = data.data.data_user;
         navigation.navigate('HomePage');
