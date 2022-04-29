@@ -8,7 +8,7 @@ import { Titulo } from '../Titulo';
 import { MensagemErro } from '../MensagemErro';
 import { CampoSelect } from '../Campos/CampoSelect';
 import { BotaoContainer } from '../Container/BotaoContainer';
-import { Botao, BotaoProps } from '../Botao';
+import { Botao, BotaoProps } from '../Botoes/Botao';
 import { valoresIniciaisCliente } from '../../utils/constantes';
 import { validacaoSchemaCliente } from '../../utils/ValidacaoSchemas';
 import { lista_estados } from '../../utils/listas';
