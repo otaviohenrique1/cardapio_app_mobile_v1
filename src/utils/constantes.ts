@@ -31,5 +31,6 @@ export const valoresIniciaisLogin: LoginTypes = {
 
 export const valoresIniciaisCliente: ClienteTypes = {
   email: '', senha: '', nome: '', rua: '', numero: '',
-  bairro: '', cidade: '', estado: '', cep: '', telefone: ''
+  bairro: '', cidade: '', estado: '', cep: '', telefone: '',
+  confirmacao_senha: "", id: "", data_cadastro: "", data_modificacao_cadastro: ""
 };

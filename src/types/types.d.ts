@@ -48,6 +48,12 @@ interface ListaRefeicaoTypes extends RefeicaoBaseTypes {
   id: string;
 }
 
+interface FotoTypes {
+  id: string;
+  url: string;
+  nome: string;
+}
+
 interface IngredientesTypes {
   nome: string;
   quantidade: number;
@@ -56,6 +62,7 @@ interface IngredientesTypes {
 interface ClienteTypes {
   email: string;
   senha: string;
+  confirmacao_senha: string;
   nome: string;
   rua: string;
   numero: string;
@@ -64,9 +71,11 @@ interface ClienteTypes {
   estado: string;
   cep: string;
   telefone: string;
-}
-
-interface ClienteDadosTypes extends ClienteTypes {
+  id: string,
   data_cadastro: string;
   data_modificacao_cadastro: string;
+}
+
+type NavigationProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList>;
 }

@@ -101,14 +101,6 @@ export const schemaValidacaoFormularioLogin = Yup
   });
 
 export const validacaoSchemaCliente = Yup.object({
-  nome,
-  email,
-  senha,
-  rua: rua,
-  numero: numero,
-  bairro: bairro,
-  cidade: cidade,
-  estado: estado,
-  cep: cep,
-  telefone: telefone,
+  nome, email, senha, confirmacao_senha, rua,
+  numero, bairro, cidade, estado, cep, telefone,
 });

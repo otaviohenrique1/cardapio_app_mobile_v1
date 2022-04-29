@@ -2,6 +2,62 @@ import React from 'react';
 import { StyleSheet, Alert } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes';
+import { Container } from '../../components/Container';
+import { ApiCadastroCliente, ApiCadastroClienteTypes } from '../../utils/api';
+import { FormatadorDados } from '../../utils/FormatadorDados';
+import { FORMATO_DATA_COM_HORA_3 } from '../../utils/constantes';
+import { FormatadorCrypto } from '../../utils/FormatadorCrypto';
+import { FormularioUsuario } from '../../components/FormularioUsuario';
+
+type NavigationProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList>;
+}
+
+export function NovoUsuario({ navigation }: NavigationProps) {
+  async function onSubmit(values: ClienteTypes) {
+    const { email, senha, nome, rua, numero, bairro, cidade, estado, cep, telefone } = values;
+
+    let senha_formatada = FormatadorCrypto.mensagemSHA512(senha);
+    let data_formatado = FormatadorDados.GeradorDataHoraFormatada(FORMATO_DATA_COM_HORA_3);
+
+    let data: ApiCadastroClienteTypes = {
+      email, senha: senha_formatada,
+      nome, rua, numero, bairro, cidade,
+      estado, cep, telefone,
+      data_cadastro: data_formatado,
+      data_modificacao_cadastro: data_formatado,
+    };
+
+    // await api.post('/cliente', data)
+    await ApiCadastroCliente(data)
+      .then(() => {
+        Alert.alert('Salvo');
+        navigation.navigate('Login');
+      })
+      .catch((erro) => {
+        Alert.alert('Erro');
+        console.error(erro);
+      });
+  };
+
+  return (
+    <Container>
+      <FormularioUsuario
+        titulo='Novo usuario'
+        onSubmit={onSubmit}
+        navigation_on_press={() => navigation.navigate('Login')}
+      />
+    </Container>
+  );
+}
+
+const styles = StyleSheet.create({});
+
+/*
+import React from 'react';
+import { StyleSheet, Alert } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../routes';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Botao, BotaoProps } from '../../components/Botao';
@@ -12,7 +68,7 @@ import { Titulo } from '../../components/Titulo';
 import { TituloContainer } from "../../components/Container/TituloContainer";
 import { CampoInput, CampoInputProps } from '../../components/Campos/CampoInput';
 import { CampoSelect } from '../../components/Campos/CampoSelect';
-import { ApiCadastroCliente } from '../../utils/api';
+import { ApiCadastroCliente, ApiCadastroClienteTypes } from '../../utils/api';
 import { lista_estados } from '../../utils/listas';
 import { validacaoSchemaCliente } from '../../utils/ValidacaoSchemas';
 import { FormatadorDados } from '../../utils/FormatadorDados';
@@ -35,12 +91,12 @@ export function NovoUsuario({ navigation }: NavigationProps) {
     let senha_formatada = FormatadorCrypto.mensagemSHA512(senha);
     let data_formatado = FormatadorDados.GeradorDataHoraFormatada(FORMATO_DATA_COM_HORA_3);
 
-    let data: ClienteDadosTypes = {
+    let data: ApiCadastroClienteTypes = {
       email, senha: senha_formatada,
       nome, rua, numero, bairro, cidade,
       estado, cep, telefone,
       data_cadastro: data_formatado,
-      data_modificacao_cadastro: data_formatado
+      data_modificacao_cadastro: data_formatado,
     };
 
     // await api.post('/cliente', data)
@@ -56,15 +112,46 @@ export function NovoUsuario({ navigation }: NavigationProps) {
   };
 
   const lista_dados_campos: CampoInputProps[] = [
-    { control: control, name: "nome", erro: errors.nome, placeholder: "Nome", keyboardType: "default", secureTextEntry: false },
-    { control: control, name: "telefone", erro: errors.telefone, placeholder: "Telefone", keyboardType: "phone-pad", secureTextEntry: false },
-    { control: control, name: "email", erro: errors.email, placeholder: "Email", keyboardType: "email-address", secureTextEntry: false },
-    { control: control, name: "senha", erro: errors.senha, placeholder: "Senha", keyboardType: "default", secureTextEntry: true },
-    { control: control, name: "rua", erro: errors.rua, placeholder: "Rua", keyboardType: "default", secureTextEntry: false },
-    { control: control, name: "bairro", erro: errors.bairro, placeholder: "Bairro", keyboardType: "default", secureTextEntry: false },
-    { control: control, name: "numero", erro: errors.numero, placeholder: "Numero", keyboardType: "numeric", secureTextEntry: false },
-    { control: control, name: "cep", erro: errors.cep, placeholder: "CEP", keyboardType: "numeric", secureTextEntry: false },
-    { control: control, name: "cidade", erro: errors.cidade, placeholder: "Cidade", keyboardType: "default", secureTextEntry: false },
+    {
+      control: control, name: "nome", erro: errors.nome, placeholder: "Nome",
+      keyboardType: "default", secureTextEntry: false
+    },
+    {
+      control: control, name: "telefone", erro: errors.telefone, placeholder: "Telefone",
+      keyboardType: "phone-pad", secureTextEntry: false
+    },
+    {
+      control: control, name: "email", erro: errors.email, placeholder: "Email",
+      keyboardType: "email-address", secureTextEntry: false
+    },
+    {
+      control: control, name: "senha", erro: errors.senha, placeholder: "Senha",
+      keyboardType: "default", secureTextEntry: true
+    },
+    {
+      control: control, name: "confirmacao_senha", erro: errors.confirmacao_senha, placeholder: "Repita a senha",
+      keyboardType: "default", secureTextEntry: true
+    },
+    {
+      control: control, name: "rua", erro: errors.rua, placeholder: "Rua",
+      keyboardType: "default", secureTextEntry: false
+    },
+    {
+      control: control, name: "bairro", erro: errors.bairro, placeholder: "Bairro",
+      keyboardType: "default", secureTextEntry: false
+    },
+    {
+      control: control, name: "numero", erro: errors.numero, placeholder: "Numero",
+      keyboardType: "numeric", secureTextEntry: false
+    },
+    {
+      control: control, name: "cep", erro: errors.cep, placeholder: "CEP",
+      keyboardType: "numeric", secureTextEntry: false
+    },
+    {
+      control: control, name: "cidade", erro: errors.cidade, placeholder: "Cidade",
+      keyboardType: "default", secureTextEntry: false
+    },
   ];
 
   const lista_dados_botoes: BotaoProps[] = [
@@ -120,6 +207,7 @@ export function NovoUsuario({ navigation }: NavigationProps) {
 }
 
 const styles = StyleSheet.create({});
+*/
 
 /*
 <CampoInput
