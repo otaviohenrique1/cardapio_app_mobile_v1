@@ -25,22 +25,28 @@ export interface ApiBuscaLoginClienteTypes {
 
 export function ApiBuscaLoginCliente(data_login: ApiBuscaLoginClienteTypes) {
   // api.post('cliente/login', data, { auth })
-  const { data, auth } = data_login;
-  return api.post('cliente/login', data, { auth });
+  // const { data, auth } = data_login;
+  return api.post('/cliente/login', {
+    email: data_login.data.email,
+    senha: data_login.data.senha
+  }, { auth: {
+    username: data_login.auth.username,
+    password: data_login.auth.password
+  } });
 }
 
 /* ApiCadastroCliente */
 export interface ApiCadastroClienteTypes {
+  nome: string;
+  telefone: string;
   email: string;
   senha: string;
-  nome: string;
   rua: string;
   numero: string;
   bairro: string;
   cidade: string;
   estado: string;
   cep: string;
-  telefone: string;
   data_cadastro: string;
   data_modificacao_cadastro: string;
 }
@@ -53,11 +59,11 @@ export function ApiCadastroCliente(data_cadastro: ApiCadastroClienteTypes) {
 /* ApiBuscaDadosUmaRefeicao */
 export function ApiBuscaDadosUmaRefeicao(id: string) {
   // api.get(`refeicao/${id}`)
-  return api.get(`refeicao/${id}`);
+  return api.get(`/refeicao/${id}`);
 }
 
 /* ApiBuscaDadosTodasRefeicoes */
 export function ApiBuscaDadosTodasRefeicoes(id: string) {
   // api.get(`refeicao/cardapio/${id_empresa_cliente}`)
-  return api.get(`refeicao/cardapio/${id}`);
+  return api.get(`/refeicao/cardapio/${id}`);
 }
