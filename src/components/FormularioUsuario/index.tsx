@@ -12,15 +12,17 @@ import { Botao, BotaoProps } from '../Botoes/Botao';
 import { valoresIniciaisCliente } from '../../utils/constantes';
 import { validacaoSchemaCliente } from '../../utils/ValidacaoSchemas';
 import { lista_estados } from '../../utils/listas';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../pages/routes';
 
 interface FormularioUsuarioProps {
   titulo: string;
   onSubmit(values: ClienteTypes): Promise<void>;
-  navigation_on_press: (event: GestureResponderEvent) => void
+  navigation: NativeStackNavigationProp<RootStackParamList>;
 }
 
 export function FormularioUsuario(props: FormularioUsuarioProps) {
-  const { titulo, onSubmit, navigation_on_press } = props;
+  const { titulo, onSubmit, navigation } = props;
 
   const { control, handleSubmit, formState: { errors }, reset } = useForm<ClienteTypes>({
     defaultValues: valoresIniciaisCliente,
@@ -73,7 +75,7 @@ export function FormularioUsuario(props: FormularioUsuarioProps) {
   const lista_dados_botoes: BotaoProps[] = [
     { on_press: handleSubmit((onSubmit)), botao_texto_cor: 'white', botao_cor: 'blue', botao_texto: 'Salvar' },
     { on_press: () => reset(), botao_texto_cor: 'white', botao_cor: 'red', botao_texto: 'Limpar' },
-    { on_press: navigation_on_press, botao_texto_cor: 'white', botao_cor: 'green', botao_texto: 'Voltar' }
+    { on_press: () => navigation.goBack(), botao_texto_cor: 'white', botao_cor: 'green', botao_texto: 'Voltar' }
   ];
 
   return (

@@ -5,7 +5,6 @@ import { RefeicaoPage } from "./RefeicaoPage";
 import { Login } from "./Login";
 import { NovoUsuario } from "./NovoUsuario";
 import React from "react";
-import { HeaderTitulo } from "../components/Header/HeaderTitulo";
 import { HeaderApp } from "../components/Header/HeaderApp";
 
 export type RootStackParamList = {
@@ -30,8 +29,6 @@ export function Routes() {
               exibe_botao_voltar={false}
             />
           ),
-          // headerStyle: styles.containerHeader,
-          // headerTitle: (props) => <HeaderTitulo {...props} titulo="Cardapio" />,
         }}
       />
       <Stack.Screen
@@ -42,12 +39,9 @@ export function Routes() {
             <HeaderApp
               titulo="Cardapio"
               exibe_botao_voltar={true}
-              on_press_botao_voltar={() => {}}
+              on_press_botao_voltar={() => props.navigation.goBack()}
             />
           ),
-          // headerStyle: styles.containerHeader,
-          // headerTitle: (props) => <HeaderTitulo {...props} titulo="Cardapio" />,
-          // headerPressColor: 'white',
         }}
       />
       <Stack.Screen

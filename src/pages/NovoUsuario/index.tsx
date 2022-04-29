@@ -45,7 +45,7 @@ export function NovoUsuario({ navigation }: NavigationProps) {
       <FormularioUsuario
         titulo='Novo usuario'
         onSubmit={onSubmit}
-        navigation_on_press={() => navigation.navigate('Login')}
+        navigation={navigation}
       />
     </Container>
   );
