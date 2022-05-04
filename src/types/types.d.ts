@@ -59,6 +59,11 @@ interface IngredientesTypes {
   quantidade: number;
 }
 
+interface IngredientesOpcionaisTypes {
+  nome: string;
+  preco: number;
+}
+
 interface ClienteTypes {
   email: string;
   senha: string;
@@ -74,6 +79,7 @@ interface ClienteTypes {
   id: string,
   data_cadastro: string;
   data_modificacao_cadastro: string;
+  empresaId: string;
 }
 
 type NavigationProps = {
