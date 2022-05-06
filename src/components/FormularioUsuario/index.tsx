@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, GestureResponderEvent } from 'react-native';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CampoInput, CampoInputProps } from '../Campos/CampoInput';
 import { TituloContainer } from '../Container/TituloContainer';
@@ -14,6 +14,7 @@ import { validacaoSchemaCliente } from '../../utils/ValidacaoSchemas';
 import { lista_estados } from '../../utils/listas';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../pages/routes';
+import { FormControl, Input } from 'native-base';
 
 interface FormularioUsuarioProps {
   titulo: string;
@@ -97,11 +98,35 @@ export function FormularioUsuario(props: FormularioUsuarioProps) {
           />
         );
       })}
+      <FormControl isRequired isInvalid={'nome' in errors}>
+        <FormControl.Label>First Name</FormControl.Label>
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              onBlur={onBlur}
+              placeholder="John"
+              onChangeText={(val) => onChange(val)}
+              value={value}
+            />
+          )}
+          name="nome"
+          rules={{ required: 'Field is required', minLength: 3 }}
+          defaultValue=""
+        />
+        <FormControl.ErrorMessage>
+          {errors.nome?.message}
+        </FormControl.ErrorMessage>
+      </FormControl>
+      {/* <Input
+        size="2xl"
+        placeholder="xl Input"
+      />
+      <Input variant="underlined" placeholder="Underlined" size="2xl" color="black" /> */}
       <CampoSelect
         control={control}
         name="estado"
         erro={errors.estado && <MensagemErro menssagem={errors.estado.message} />}
-        placeholder="Estado"
         mode="dialog"
         label_campo_selecione="Estado"
         data={lista_estados}

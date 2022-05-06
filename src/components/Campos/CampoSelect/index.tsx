@@ -1,4 +1,5 @@
 import { Picker } from "@react-native-picker/picker";
+import { Box, Center, CheckIcon, FormControl, Select, WarningOutlineIcon } from "native-base";
 import React from "react"
 import { Controller } from "react-hook-form"
 import { StyleSheet } from "react-native"
@@ -15,14 +16,13 @@ export interface CampoSelectProps {
   control: any;
   name: any;
   erro: any;
-  placeholder?: string;
   mode?: modeTypes
   label_campo_selecione: string;
   data: DataTypes[];
 }
 
 export function CampoSelect(props: CampoSelectProps) {
-  const { control, placeholder, label_campo_selecione,
+  const { control, label_campo_selecione,
     data, name, erro } = props;
   const { campo_select, campo_select_item } = styles;
 
@@ -36,7 +36,6 @@ export function CampoSelect(props: CampoSelectProps) {
             selectedValue={value}
             onValueChange={(itemValue, itemIndex) => { onChange(itemValue) }}
             onBlur={onBlur}
-            placeholder={placeholder}
             style={campo_select}
             itemStyle={campo_select_item}
           >
@@ -79,3 +78,92 @@ const styles = StyleSheet.create({
     color: 'gray',
   }
 });
+
+
+export interface CampoSelectComErroProps {
+  control: any;
+  name: any;
+  erro: any;
+  label_campo_selecione: string;
+  data: DataTypes[];
+}
+
+
+export function CampoSelectComErro(props: CampoSelectComErroProps) {
+  const { control, label_campo_selecione, data, name, erro } = props;
+  return (
+    <CampoContainer>
+      <Controller
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Select
+            selectedValue={String(value)}
+            // minWidth="200"
+            accessibilityLabel={label_campo_selecione}
+            placeholder={label_campo_selecione}
+            _selectedItem={{ bg: "teal.600", endIcon: <CheckIcon size="5" /> }}
+            mt={1}
+            onValueChange={(itemValue) => onChange(itemValue) }
+          >
+            {data.map((item, index) => {
+              const { texto, valor } = item;
+
+              return (
+                <Select.Item
+                  label={texto}
+                  value={valor}
+                  key={index}
+                />
+              );
+            })}
+          </Select>
+        )}
+        name={name}
+      />
+      {erro}
+    </CampoContainer>
+  );
+}
+
+const ExemploSelectComErrorMessage = () => {
+  return (
+    <Center>
+      <FormControl w="3/4" maxW="300" isRequired isInvalid>
+        <FormControl.Label>Choose service</FormControl.Label>
+        <Select minWidth="200" accessibilityLabel="Choose Service" placeholder="Choose Service" _selectedItem={{
+          bg: "teal.600",
+          endIcon: <CheckIcon size={5} />
+        }} mt="1">
+          <Select.Item label="UX Research" value="ux" />
+          <Select.Item label="Web Development" value="web" />
+          <Select.Item label="Cross Platform Development" value="cross" />
+          <Select.Item label="UI Designing" value="ui" />
+          <Select.Item label="Backend Development" value="backend" />
+        </Select>
+        <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+          Please make a selection!
+        </FormControl.ErrorMessage>
+      </FormControl>
+    </Center>
+  );
+};
+
+const ExemploSelect = () => {
+  let [service, setService] = React.useState("");
+  return (
+    <Center>
+      <Box w="3/4" maxW="300">
+        <Select selectedValue={service} minWidth="200" accessibilityLabel="Choose Service" placeholder="Choose Service" _selectedItem={{
+          bg: "teal.600",
+          endIcon: <CheckIcon size="5" />
+        }} mt={1} onValueChange={itemValue => setService(itemValue)}>
+          <Select.Item label="UX Research" value="ux" />
+          <Select.Item label="Web Development" value="web" />
+          <Select.Item label="Cross Platform Development" value="cross" />
+          <Select.Item label="UI Designing" value="ui" />
+          <Select.Item label="Backend Development" value="backend" />
+        </Select>
+      </Box>
+    </Center>
+  );
+};

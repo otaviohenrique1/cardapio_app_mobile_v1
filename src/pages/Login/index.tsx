@@ -30,21 +30,23 @@ export function Login({ navigation }: NavigationProps) {
   function onSubmit(values: LoginTypes) {
     const { email, senha } = values;
     let senha_formatada = FormatadorCrypto.mensagemSHA512(senha);
-    console.log("email => ", email);
-    console.log("senha => ", senha);
-    console.log("senha_formatada => ", senha_formatada);
-    const data = { email, senha: senha_formatada };
-    const auth = {
-      username: email,
-      password: senha_formatada
-    };
+    // console.log("email => ", email);
+    // console.log("senha => ", senha);
+    // console.log("senha_formatada => ", senha_formatada);
+
+    // const data = { email, senha: senha_formatada };
+    // const auth = {
+    //   username: email,
+    //   password: senha_formatada
+    // };
 
     // const data_login: ApiBuscaLoginClienteTypes = { data, auth };
     // api.post('cliente/login', data, { auth })
-    console.log("data email => ", data.email);
-    console.log("data senha => ", data.senha);
-    console.log("auth username => ", auth.username);
-    console.log("auth password => ", auth.password);
+    // console.log("data email => ", data.email);
+    // console.log("data senha => ", data.senha);
+    // console.log("auth username => ", auth.username);
+    // console.log("auth password => ", auth.password);
+
     ApiBuscaLoginCliente({
       data: {
         email: email,
@@ -68,14 +70,43 @@ export function Login({ navigation }: NavigationProps) {
   };
 
   const lista_dados_campos: CampoInputProps[] = [
-    { control: control, name: "email", erro: errors.email, placeholder: "Email", keyboardType: "email-address", secureTextEntry: false },
-    { control: control, name: "senha", erro: errors.senha, placeholder: "Senha", keyboardType: "default", secureTextEntry: true },
+    {
+      control: control,
+      name: "email",
+      erro: errors.email,
+      placeholder: "Email",
+      keyboardType: "email-address",
+      secureTextEntry: false
+    },
+    {
+      control: control,
+      name: "senha",
+      erro: errors.senha,
+      placeholder: "Senha",
+      keyboardType: "default",
+      secureTextEntry: true
+    },
   ];
 
   const lista_dados_botoes: BotaoProps[] = [
-    { on_press: handleSubmit((onSubmit)), botao_texto_cor: 'white', botao_cor: 'blue', botao_texto: 'Entrar' },
-    { on_press: () => reset(), botao_texto_cor: 'white', botao_cor: 'red', botao_texto: 'Limpar' },
-    { on_press: () => navigation.navigate('NovoUsuario'), botao_texto_cor: 'white', botao_cor: 'green', botao_texto: 'Novo Usuario' }
+    { 
+      on_press: handleSubmit((onSubmit)),
+      botao_texto_cor: 'white',
+      botao_cor: 'blue',
+      botao_texto: 'Entrar'
+    },
+    { 
+      on_press: () => reset(),
+      botao_texto_cor: 'white',
+      botao_cor: 'red',
+      botao_texto: 'Limpar'
+    },
+    { 
+      on_press: () => navigation.navigate('NovoUsuario'),
+      botao_texto_cor: 'white',
+      botao_cor: 'green',
+      botao_texto: 'Novo Usuario'
+    }
   ];
 
   return (
