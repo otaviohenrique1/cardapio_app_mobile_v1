@@ -6,19 +6,31 @@ import { Login } from "./Login";
 import { NovoUsuario } from "./NovoUsuario";
 import React from "react";
 import { HeaderApp } from "../components/Header/HeaderApp";
+import { FormularioTeste } from "./FormularioTeste";
 
 export type RootStackParamList = {
   Login: undefined;
   NovoUsuario: undefined;
   HomePage: undefined;
   RefeicaoPage: { id: string };
+  FormularioTeste: undefined;
 }
 
-export function Routes() {
+export function StackRoutes() {
   const Stack = createStackNavigator<RootStackParamList>();
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="FormularioTeste">
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="NovoUsuario"
+        component={NovoUsuario}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="HomePage"
         component={HomePage}
@@ -27,6 +39,7 @@ export function Routes() {
             <HeaderApp
               titulo="Cardapio"
               exibe_botao_voltar={false}
+              navigation={props.navigation}
             />
           ),
         }}
@@ -39,20 +52,23 @@ export function Routes() {
             <HeaderApp
               titulo="Cardapio"
               exibe_botao_voltar={true}
-              on_press_botao_voltar={() => props.navigation.goBack()}
+              navigation={props.navigation}
             />
           ),
         }}
       />
       <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="NovoUsuario"
-        component={NovoUsuario}
-        options={{ headerShown: false }}
+        name="FormularioTeste"
+        component={FormularioTeste}
+        options={{
+          header: (props) => (
+            <HeaderApp
+              titulo="Cardapio"
+              exibe_botao_voltar={false}
+              navigation={props.navigation}
+            />
+          ),
+        }}
       />
     </Stack.Navigator>
   );
