@@ -10,22 +10,22 @@ import {
   MAXIMO_CARACTERES
 } from "./constantes";
 
-const nome = Yup
+export const nome = Yup
   .string()
   .required(Mensagem.MensagemErro("nome"));
 
-const email = Yup
+export const email = Yup
   .string()
   .email(Mensagem.MensagemSimples(EMAIL_INVALIDO))
   .required(Mensagem.MensagemErro("email"));
 
-const senha = Yup
+export const senha = Yup
   .string()
   .min(valor_minimo_carateres, MINIMO_CARACTERES)
   .max(valor_maximo_carateres, MAXIMO_CARACTERES)
   .required(Mensagem.MensagemErro("senha"));
 
-const confirmacao_senha = Yup
+export const confirmacao_senha = Yup
   .string()
   .when("senha", {
     is: (val: string) => (val && val.length > 0 ? true : false),
@@ -35,16 +35,16 @@ const confirmacao_senha = Yup
     )
   });
 
-const preco = Yup
+export const preco = Yup
   .number()
   .moreThan(0, Mensagem.MensagemErro("preco"))
   .required(Mensagem.MensagemErro("preco"));
 
-const quantidade = Yup
+export const quantidade = Yup
   .number()
   .required(Mensagem.MensagemErro("nome"));
 
-const ingredientes = Yup
+export const ingredientes = Yup
   .array()
   .of(
     Yup.object().shape({
@@ -54,31 +54,31 @@ const ingredientes = Yup
   .min(valor_minimo_ingredientes, MINIMO_INGREDIENTES)
   .required(Mensagem.MensagemErro("ingredientes"));
 
-const rua = Yup
+export const rua = Yup
   .string()
   .required(Mensagem.MensagemErro("rua"));
 
-const numero = Yup
+export const numero = Yup
   .string()
   .required(Mensagem.MensagemErro("numero"));
 
-const bairro = Yup
+export const bairro = Yup
   .string()
   .required(Mensagem.MensagemErro("bairro"));
 
-const cidade = Yup
+export const cidade = Yup
   .string()
   .required(Mensagem.MensagemErro("cidade"));
 
-const estado = Yup
+export const estado = Yup
   .string()
   .required(Mensagem.MensagemErro("estado"));
 
-const cep = Yup
+export const cep = Yup
   .string()
   .required(Mensagem.MensagemErro("cep"));
 
-const telefone = Yup
+export const telefone = Yup
   .string()
   .required(Mensagem.MensagemErro("telefone"));
 
