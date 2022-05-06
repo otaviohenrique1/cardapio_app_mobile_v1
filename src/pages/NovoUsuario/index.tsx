@@ -28,6 +28,8 @@ export function NovoUsuario({ navigation }: NavigationProps) {
       data_modificacao_cadastro: data_formatado,
     };
 
+    // console.log(data);
+
     // await api.post('/cliente', data)
     await ApiCadastroCliente(data)
       .then(() => {
