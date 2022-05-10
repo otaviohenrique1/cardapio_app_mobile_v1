@@ -1,7 +1,9 @@
+import { FormControl, Input } from "native-base";
 import React from "react"
 import { Control, Controller } from "react-hook-form"
 import { KeyboardTypeOptions, StyleSheet, TextInput } from "react-native"
 import { CampoContainer } from "../../Container/CampoContainer";
+import { MensagemErro } from "../../MensagemErro";
 
 export interface CampoInputProps {
   // control: any;
@@ -19,7 +21,7 @@ export function CampoInput(props: CampoInputProps) {
   const { control, placeholder, editable, keyboardType,
     defaultValue, secureTextEntry, name, erro } = props;
   const { campo } = styles;
-    
+
   return (
     <CampoContainer>
       <Controller
@@ -90,3 +92,54 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
 });
+
+export interface CampoInput2Props {
+  // control: any;
+  control: Control<any, any>;
+  name: any;
+  erro: any;
+  placeholder: string;
+  editable?: boolean;
+  keyboardType?: KeyboardTypeOptions;
+  defaultValue?: string;
+  secureTextEntry?: boolean;
+  isInvalid?: boolean
+}
+
+export function CampoInput2(props: CampoInput2Props) {
+  const { control, placeholder, editable, keyboardType,
+    defaultValue, secureTextEntry, name, erro, isInvalid } = props;
+  return (
+    <FormControl
+      isRequired
+      isInvalid={isInvalid}
+      paddingY={2}
+      paddingX={4}
+    >
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            onBlur={onBlur}
+            placeholder={placeholder}
+            onChangeText={(val) => onChange(val)}
+            value={value}
+            variant="underlined"
+            size="2xl"
+            secureTextEntry={secureTextEntry}
+            editable={editable}
+            keyboardType={keyboardType}
+          />
+        )}
+        name={name}
+        rules={{ required: 'Campo vazio' }}
+        defaultValue={defaultValue}
+      />
+      <FormControl.ErrorMessage>
+        <MensagemErro menssagem={erro} />
+      </FormControl.ErrorMessage>
+    </FormControl>
+  );
+}
+
+

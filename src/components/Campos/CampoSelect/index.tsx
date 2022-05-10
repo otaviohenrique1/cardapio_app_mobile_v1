@@ -4,6 +4,7 @@ import React from "react"
 import { Controller } from "react-hook-form"
 import { StyleSheet } from "react-native"
 import { CampoContainer } from "../../Container/CampoContainer";
+import { MensagemErro } from "../../MensagemErro";
 
 interface DataTypes {
   valor: string;
@@ -103,7 +104,7 @@ export function CampoSelectComErro(props: CampoSelectComErroProps) {
             placeholder={label_campo_selecione}
             _selectedItem={{ bg: "teal.600", endIcon: <CheckIcon size="5" /> }}
             mt={1}
-            onValueChange={(itemValue) => onChange(itemValue) }
+            onValueChange={(itemValue) => onChange(itemValue)}
           >
             {data.map((item, index) => {
               const { texto, valor } = item;
@@ -167,3 +168,49 @@ const ExemploSelect = () => {
     </Center>
   );
 };
+
+export interface CampoSelect2Props {
+  control: any;
+  name: any;
+  erro: any;
+  mode?: modeTypes
+  placeholder: string;
+  label_campo_selecione: string;
+  defaultValue?: string;
+  data: DataTypes[];
+}
+export function CampoSelect2(props: CampoSelect2Props) {
+  const { control, label_campo_selecione, placeholder,
+    defaultValue, data, name, erro } = props;
+
+  return (
+    <FormControl
+      isRequired
+      isInvalid={erro}
+      paddingY={2}
+      paddingX={4}
+    >
+      <Controller
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <Select
+            placeholder={placeholder}
+            selectedValue={value}
+            onValueChange={(itemValue: string) => { onChange(itemValue); }}
+            variant="underlined"
+            size="2xl"
+          >
+            <Select.Item label={label_campo_selecione} value="" />
+            {data.map((item, index) => <Select.Item label={item.texto} value={item.valor} key={index} />)}
+          </Select>
+        )}
+        name={name}
+        rules={{ required: 'Selecione um item' }}
+        defaultValue={defaultValue}
+      />
+      <FormControl.ErrorMessage>
+        <MensagemErro menssagem={erro} />
+      </FormControl.ErrorMessage>
+    </FormControl>
+  );
+}
