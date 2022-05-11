@@ -98,38 +98,15 @@ export function FormularioUsuario(props: FormularioUsuarioProps) {
           />
         );
       })}
-      <FormControl isRequired isInvalid={'nome' in errors}>
-        <FormControl.Label>First Name</FormControl.Label>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Input
-              onBlur={onBlur}
-              placeholder="John"
-              onChangeText={(val) => onChange(val)}
-              value={value}
-            />
-          )}
-          name="nome"
-          rules={{ required: 'Field is required', minLength: 3 }}
-          defaultValue=""
-        />
-        <FormControl.ErrorMessage>
-          {errors.nome?.message}
-        </FormControl.ErrorMessage>
-      </FormControl>
-      {/* <Input
-        size="2xl"
-        placeholder="xl Input"
-      />
-      <Input variant="underlined" placeholder="Underlined" size="2xl" color="black" /> */}
       <CampoSelect
         control={control}
         name="estado"
-        erro={errors.estado && <MensagemErro menssagem={errors.estado.message} />}
+        isInvalid={"estado" in errors}
         mode="dialog"
         label_campo_selecione="Estado"
         data={lista_estados}
+        placeholder="Estado"
+        menssagem_erro={errors.estado?.message}
       />
       <BotaoContainer>
         {lista_dados_botoes.map((item, index) => {

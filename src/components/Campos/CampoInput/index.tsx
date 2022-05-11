@@ -17,7 +17,7 @@ export interface CampoInputProps {
   secureTextEntry?: boolean;
 }
 
-export function CampoInput(props: CampoInputProps) {
+export function CampoInput2(props: CampoInputProps) {
   const { control, placeholder, editable, keyboardType,
     defaultValue, secureTextEntry, name, erro } = props;
   const { campo } = styles;
@@ -93,22 +93,22 @@ const styles = StyleSheet.create({
   },
 });
 
-export interface CampoInput2Props {
+export interface CampoInputProps {
   // control: any;
   control: Control<any, any>;
   name: any;
-  erro: any;
   placeholder: string;
   editable?: boolean;
   keyboardType?: KeyboardTypeOptions;
   defaultValue?: string;
+  menssagem_erro?: string;
   secureTextEntry?: boolean;
   isInvalid?: boolean
 }
 
-export function CampoInput2(props: CampoInput2Props) {
+export function CampoInput(props: CampoInputProps) {
   const { control, placeholder, editable, keyboardType,
-    defaultValue, secureTextEntry, name, erro, isInvalid } = props;
+    defaultValue, secureTextEntry, name, isInvalid, menssagem_erro } = props;
   return (
     <FormControl
       isRequired
@@ -136,7 +136,7 @@ export function CampoInput2(props: CampoInput2Props) {
         defaultValue={defaultValue}
       />
       <FormControl.ErrorMessage>
-        <MensagemErro menssagem={erro} />
+        <MensagemErro menssagem={menssagem_erro} />
       </FormControl.ErrorMessage>
     </FormControl>
   );

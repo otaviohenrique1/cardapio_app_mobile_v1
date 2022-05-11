@@ -13,7 +13,7 @@ interface DataTypes {
 
 type modeTypes = "dialog" | "dropdown";
 
-export interface CampoSelectProps {
+export interface CampoSelect2Props {
   control: any;
   name: any;
   erro: any;
@@ -22,7 +22,7 @@ export interface CampoSelectProps {
   data: DataTypes[];
 }
 
-export function CampoSelect(props: CampoSelectProps) {
+export function CampoSelect2(props: CampoSelect2Props) {
   const { control, label_campo_selecione,
     data, name, erro } = props;
   const { campo_select, campo_select_item } = styles;
@@ -169,24 +169,25 @@ const ExemploSelect = () => {
   );
 };
 
-export interface CampoSelect2Props {
+export interface CampoSelectProps {
   control: any;
   name: any;
-  erro: any;
+  isInvalid?: boolean;
   mode?: modeTypes
   placeholder: string;
   label_campo_selecione: string;
   defaultValue?: string;
+  menssagem_erro?: string;
   data: DataTypes[];
 }
-export function CampoSelect2(props: CampoSelect2Props) {
+export function CampoSelect(props: CampoSelectProps) {
   const { control, label_campo_selecione, placeholder,
-    defaultValue, data, name, erro } = props;
+    defaultValue, data, name, isInvalid, menssagem_erro } = props;
 
   return (
     <FormControl
       isRequired
-      isInvalid={erro}
+      isInvalid={isInvalid}
       paddingY={2}
       paddingX={4}
     >
@@ -209,7 +210,7 @@ export function CampoSelect2(props: CampoSelect2Props) {
         defaultValue={defaultValue}
       />
       <FormControl.ErrorMessage>
-        <MensagemErro menssagem={erro} />
+        <MensagemErro menssagem={menssagem_erro} />
       </FormControl.ErrorMessage>
     </FormControl>
   );

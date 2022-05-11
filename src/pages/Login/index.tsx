@@ -11,7 +11,7 @@ import { Titulo } from '../../components/Titulo';
 import { TituloContainer } from "../../components/Container/TituloContainer";
 import { Subtitulo } from "../../components/Subtitulo";
 import { Botao, BotaoProps } from '../../components/Botoes/Botao';
-import { CampoInput, CampoInputProps } from '../../components/Campos/CampoInput';
+import { CampoInput2, CampoInputProps } from '../../components/Campos/CampoInput';
 import api, { ApiBuscaLoginCliente, ApiBuscaLoginClienteTypes } from '../../utils/api';
 import { schemaValidacaoFormularioLogin } from '../../utils/ValidacaoSchemas';
 import { valoresIniciaisLogin } from '../../utils/constantes';
@@ -118,7 +118,7 @@ export function Login({ navigation }: NavigationProps) {
       {lista_dados_campos.map((item, index) => {
         const { control, name, erro, placeholder, keyboardType, secureTextEntry } = item;
         return (
-          <CampoInput
+          <CampoInput2
             key={index}
             control={control}
             name={name}
