@@ -5,7 +5,7 @@ import { KeyboardTypeOptions, StyleSheet, TextInput } from "react-native"
 import { CampoContainer } from "../../Container/CampoContainer";
 import { MensagemErro } from "../../MensagemErro";
 
-export interface CampoInputProps {
+export interface CampoInput2Props {
   // control: any;
   control: Control<any, any>;
   name: any;
@@ -17,7 +17,7 @@ export interface CampoInputProps {
   secureTextEntry?: boolean;
 }
 
-export function CampoInput2(props: CampoInputProps) {
+export function CampoInput2(props: CampoInput2Props) {
   const { control, placeholder, editable, keyboardType,
     defaultValue, secureTextEntry, name, erro } = props;
   const { campo } = styles;

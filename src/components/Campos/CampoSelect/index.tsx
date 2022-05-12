@@ -173,7 +173,6 @@ export interface CampoSelectProps {
   control: any;
   name: any;
   isInvalid?: boolean;
-  mode?: modeTypes
   placeholder: string;
   label_campo_selecione: string;
   defaultValue?: string;

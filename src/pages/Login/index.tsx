@@ -11,7 +11,7 @@ import { Titulo } from '../../components/Titulo';
 import { TituloContainer } from "../../components/Container/TituloContainer";
 import { Subtitulo } from "../../components/Subtitulo";
 import { Botao, BotaoProps } from '../../components/Botoes/Botao';
-import { CampoInput2, CampoInputProps } from '../../components/Campos/CampoInput';
+import { CampoInput, CampoInputProps } from '../../components/Campos/CampoInput';
 import api, { ApiBuscaLoginCliente, ApiBuscaLoginClienteTypes } from '../../utils/api';
 import { schemaValidacaoFormularioLogin } from '../../utils/ValidacaoSchemas';
 import { valoresIniciaisLogin } from '../../utils/constantes';
@@ -71,20 +71,12 @@ export function Login({ navigation }: NavigationProps) {
 
   const lista_dados_campos: CampoInputProps[] = [
     {
-      control: control,
-      name: "email",
-      erro: errors.email,
-      placeholder: "Email",
-      keyboardType: "email-address",
-      secureTextEntry: false
+      control: control, name: "email", menssagem_erro: errors.email?.message, placeholder: "Email",
+      keyboardType: "email-address", secureTextEntry: false, defaultValue: "", editable: true, isInvalid: "email" in errors,
     },
     {
-      control: control,
-      name: "senha",
-      erro: errors.senha,
-      placeholder: "Senha",
-      keyboardType: "default",
-      secureTextEntry: true
+      control: control, name: "senha", menssagem_erro: errors.senha?.message, placeholder: "Senha",
+      keyboardType: "default", secureTextEntry: true, defaultValue: "", editable: true, isInvalid: "senha" in errors,
     },
   ];
 
@@ -116,16 +108,20 @@ export function Login({ navigation }: NavigationProps) {
         <Subtitulo texto="Digital" />
       </TituloContainer>
       {lista_dados_campos.map((item, index) => {
-        const { control, name, erro, placeholder, keyboardType, secureTextEntry } = item;
+        const { control, name, isInvalid, placeholder, keyboardType, secureTextEntry,
+          editable, menssagem_erro, defaultValue } = item;
         return (
-          <CampoInput2
+          <CampoInput
             key={index}
             control={control}
             name={name}
-            erro={erro && <MensagemErro menssagem={erro.message} />}
+            isInvalid={isInvalid}
             placeholder={placeholder}
             keyboardType={keyboardType}
             secureTextEntry={secureTextEntry}
+            editable={editable}
+            menssagem_erro={menssagem_erro}
+            defaultValue={defaultValue}
           />
         );
       })}

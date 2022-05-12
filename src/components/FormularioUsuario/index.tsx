@@ -32,44 +32,44 @@ export function FormularioUsuario(props: FormularioUsuarioProps) {
 
   const lista_dados_campos: CampoInputProps[] = [
     {
-      control: control, name: "nome", erro: errors.nome, placeholder: "Nome",
-      keyboardType: "default", secureTextEntry: false
+      control: control, name: "nome", menssagem_erro: errors.nome?.message, placeholder: "Nome",
+      keyboardType: "default", secureTextEntry: false, defaultValue: "", editable: true, isInvalid: "nome" in errors,
     },
     {
-      control: control, name: "telefone", erro: errors.telefone, placeholder: "Telefone",
-      keyboardType: "phone-pad", secureTextEntry: false
+      control: control, name: "telefone", menssagem_erro: errors.telefone?.message, placeholder: "Telefone",
+      keyboardType: "phone-pad", secureTextEntry: false, defaultValue: "", editable: true, isInvalid: "telefone" in errors,
     },
     {
-      control: control, name: "email", erro: errors.email, placeholder: "Email",
-      keyboardType: "email-address", secureTextEntry: false
+      control: control, name: "email", menssagem_erro: errors.email?.message, placeholder: "Email",
+      keyboardType: "email-address", secureTextEntry: false, defaultValue: "", editable: true, isInvalid: "email" in errors,
     },
     {
-      control: control, name: "senha", erro: errors.senha, placeholder: "Senha",
-      keyboardType: "default", secureTextEntry: true
+      control: control, name: "senha", menssagem_erro: errors.senha?.message, placeholder: "Senha",
+      keyboardType: "default", secureTextEntry: true, defaultValue: "", editable: true, isInvalid: "senha" in errors,
     },
     {
-      control: control, name: "confirmacao_senha", erro: errors.confirmacao_senha, placeholder: "Repita a senha",
-      keyboardType: "default", secureTextEntry: true
+      control: control, name: "confirmacao_senha", menssagem_erro: errors.confirmacao_senha?.message, placeholder: "Repita a senha",
+      keyboardType: "default", secureTextEntry: true, defaultValue: "", editable: true, isInvalid: "confirmacao_senha" in errors,
     },
     {
-      control: control, name: "rua", erro: errors.rua, placeholder: "Rua",
-      keyboardType: "default", secureTextEntry: false
+      control: control, name: "rua", menssagem_erro: errors.rua?.message, placeholder: "Rua",
+      keyboardType: "default", secureTextEntry: false, defaultValue: "", editable: true, isInvalid: "rua" in errors,
     },
     {
-      control: control, name: "bairro", erro: errors.bairro, placeholder: "Bairro",
-      keyboardType: "default", secureTextEntry: false
+      control: control, name: "bairro", menssagem_erro: errors.bairro?.message, placeholder: "Bairro",
+      keyboardType: "default", secureTextEntry: false, defaultValue: "", editable: true, isInvalid: "bairro" in errors,
     },
     {
-      control: control, name: "numero", erro: errors.numero, placeholder: "Numero",
-      keyboardType: "numeric", secureTextEntry: false
+      control: control, name: "numero", menssagem_erro: errors.numero?.message, placeholder: "Numero",
+      keyboardType: "numeric", secureTextEntry: false, defaultValue: "", editable: true, isInvalid: "numero" in errors,
     },
     {
-      control: control, name: "cep", erro: errors.cep, placeholder: "CEP",
-      keyboardType: "numeric", secureTextEntry: false
+      control: control, name: "cep", menssagem_erro: errors.cep?.message, placeholder: "CEP",
+      keyboardType: "numeric", secureTextEntry: false, defaultValue: "", editable: true, isInvalid: "cep" in errors,
     },
     {
-      control: control, name: "cidade", erro: errors.cidade, placeholder: "Cidade",
-      keyboardType: "default", secureTextEntry: false
+      control: control, name: "cidade", menssagem_erro: errors.cidade?.message, placeholder: "Cidade",
+      keyboardType: "default", secureTextEntry: false, defaultValue: "", editable: true, isInvalid: "cidade" in errors,
     },
   ];
 
@@ -85,16 +85,20 @@ export function FormularioUsuario(props: FormularioUsuarioProps) {
         <Titulo texto={titulo} />
       </TituloContainer>
       {lista_dados_campos.map((item, index) => {
-        const { control, name, erro, placeholder, keyboardType, secureTextEntry } = item;
+        const { control, name, isInvalid, placeholder, keyboardType, secureTextEntry,
+          editable, menssagem_erro, defaultValue } = item;
         return (
           <CampoInput
             key={index}
             control={control}
             name={name}
-            erro={erro && <MensagemErro menssagem={erro.message} />}
+            isInvalid={isInvalid}
             placeholder={placeholder}
             keyboardType={keyboardType}
             secureTextEntry={secureTextEntry}
+            editable={editable}
+            menssagem_erro={menssagem_erro}
+            defaultValue={defaultValue}
           />
         );
       })}
@@ -102,11 +106,11 @@ export function FormularioUsuario(props: FormularioUsuarioProps) {
         control={control}
         name="estado"
         isInvalid={"estado" in errors}
-        mode="dialog"
         label_campo_selecione="Estado"
         data={lista_estados}
         placeholder="Estado"
         menssagem_erro={errors.estado?.message}
+        defaultValue=""
       />
       <BotaoContainer>
         {lista_dados_botoes.map((item, index) => {
