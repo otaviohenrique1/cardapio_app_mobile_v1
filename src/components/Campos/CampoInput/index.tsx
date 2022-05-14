@@ -109,6 +109,7 @@ export interface CampoInputProps {
 export function CampoInput(props: CampoInputProps) {
   const { control, placeholder, editable, keyboardType,
     defaultValue, secureTextEntry, name, isInvalid, menssagem_erro } = props;
+
   return (
     <FormControl
       isRequired
